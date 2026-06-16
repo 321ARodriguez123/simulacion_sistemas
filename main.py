@@ -111,6 +111,7 @@ def generar():
             val_semilla = entradas["semilla"].get()
             configurar_tabla(("Iter", "Constante", "Semilla", "Resultado", "Centro", "Ri"))
             
+            
             # Tu archivo multiplicador_contacto.py pide 2 datos (Constante y luego Semilla)
             filas = ejecutar_script_externo("multiplicador_contacto.py", [val_a, val_semilla])
 
