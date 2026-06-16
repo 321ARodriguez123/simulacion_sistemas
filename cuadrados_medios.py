@@ -32,5 +32,6 @@ for i in range(1, 7):
         centro,
         ri
     ))
+    
 
     semilla = int(centro)
