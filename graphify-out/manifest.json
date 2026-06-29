@@ -1,0 +1,37 @@
+{
+  "cuadrados_medios.py": {
+    "mtime": 1781876130.9785728,
+    "ast_hash": "40c2034e25752c2319b17b425ca427ea",
+    "semantic_hash": ""
+  },
+  "main.py": {
+    "mtime": 1781623491.1520224,
+    "ast_hash": "bc4cd631f05c0c121366233c212aedf0",
+    "semantic_hash": ""
+  },
+  "multiplicador_contacto.py": {
+    "mtime": 1781876121.353419,
+    "ast_hash": "ce67a9366d0dd63e26c5a28448aa5a41",
+    "semantic_hash": ""
+  },
+  "otro.py": {
+    "mtime": 1781876086.4778445,
+    "ast_hash": "41ceca40e5efc117fe795aa2f9d7f5f7",
+    "semantic_hash": ""
+  },
+  "productos_medios.py": {
+    "mtime": 1781876142.589537,
+    "ast_hash": "6a4b86c5cf440da4bda1080cf3ce903d",
+    "semantic_hash": ""
+  },
+  "uni_var_media.py": {
+    "mtime": 1781774135.835083,
+    "ast_hash": "30624722b58f298e2bbe94e8f32e5e1a",
+    "semantic_hash": ""
+  },
+  "ventana_uni_var_media.py": {
+    "mtime": 1781788208.4872978,
+    "ast_hash": "4f3a5f32eb6de1ff4973d0e703f081d3",
+    "semantic_hash": ""
+  }
+}

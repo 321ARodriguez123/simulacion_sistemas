@@ -1,0 +1,587 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "cuadrados_medios.py",
+      "file_type": "code",
+      "source_file": "cuadrados_medios.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "cuadrados_medios",
+      "community": 3,
+      "norm_label": "cuadrados_medios.py"
+    },
+    {
+      "label": "obtener_centro()",
+      "file_type": "code",
+      "source_file": "cuadrados_medios.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "cuadrados_medios_obtener_centro",
+      "community": 3,
+      "norm_label": "obtener_centro()"
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "main",
+      "community": 2,
+      "norm_label": "main.py"
+    },
+    {
+      "label": "configurar_tabla()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "main_configurar_tabla",
+      "community": 1,
+      "norm_label": "configurar_tabla()"
+    },
+    {
+      "label": "crear_input()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "main_crear_input",
+      "community": 2,
+      "norm_label": "crear_input()"
+    },
+    {
+      "label": "actualizar_inputs()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "main_actualizar_inputs",
+      "community": 2,
+      "norm_label": "actualizar_inputs()"
+    },
+    {
+      "label": "ejecutar_script_externo()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L47",
+      "_origin": "ast",
+      "id": "main_ejecutar_script_externo",
+      "community": 1,
+      "norm_label": "ejecutar_script_externo()"
+    },
+    {
+      "label": "generar()",
+      "file_type": "code",
+      "source_file": "main.py",
+      "source_location": "L86",
+      "_origin": "ast",
+      "id": "main_generar",
+      "community": 1,
+      "norm_label": "generar()"
+    },
+    {
+      "label": "Configura din\u00e1micamente las columnas del Treeview.",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "main_rationale_7",
+      "community": 1,
+      "norm_label": "configura dinamicamente las columnas del treeview."
+    },
+    {
+      "label": "Crea una fila con un Label y un Entry din\u00e1micamente.",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "main_rationale_14",
+      "community": 2,
+      "norm_label": "crea una fila con un label y un entry dinamicamente."
+    },
+    {
+      "label": "Actualiza los campos de texto seg\u00fan el m\u00e9todo seleccionado.",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "main_rationale_23",
+      "community": 2,
+      "norm_label": "actualiza los campos de texto segun el metodo seleccionado."
+    },
+    {
+      "label": "Ejecuta un archivo .py externo, le env\u00eda los inputs y captura los prints.",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "main_rationale_48",
+      "community": 1,
+      "norm_label": "ejecuta un archivo .py externo, le envia los inputs y captura los prints."
+    },
+    {
+      "label": "Recopila los datos y llama a ejecutar_script_externo.",
+      "file_type": "rationale",
+      "source_file": "main.py",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "main_rationale_87",
+      "community": 1,
+      "norm_label": "recopila los datos y llama a ejecutar_script_externo."
+    },
+    {
+      "label": "multiplicador_contacto.py",
+      "file_type": "code",
+      "source_file": "multiplicador_contacto.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "multiplicador_contacto",
+      "community": 4,
+      "norm_label": "multiplicador_contacto.py"
+    },
+    {
+      "label": "obtener_centro()",
+      "file_type": "code",
+      "source_file": "multiplicador_contacto.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "multiplicador_contacto_obtener_centro",
+      "community": 4,
+      "norm_label": "obtener_centro()"
+    },
+    {
+      "label": "otro.py",
+      "file_type": "code",
+      "source_file": "otro.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "otro",
+      "community": 5,
+      "norm_label": "otro.py"
+    },
+    {
+      "label": "RI__()",
+      "file_type": "code",
+      "source_file": "otro.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "otro_ri",
+      "community": 5,
+      "norm_label": "ri__()"
+    },
+    {
+      "label": "productos_medios.py",
+      "file_type": "code",
+      "source_file": "productos_medios.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "productos_medios",
+      "community": 6,
+      "norm_label": "productos_medios.py"
+    },
+    {
+      "label": "obtener_centro()",
+      "file_type": "code",
+      "source_file": "productos_medios.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "productos_medios_obtener_centro",
+      "community": 6,
+      "norm_label": "obtener_centro()"
+    },
+    {
+      "label": "uni_var_media.py",
+      "file_type": "code",
+      "source_file": "uni_var_media.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "uni_var_media",
+      "community": 0,
+      "norm_label": "uni_var_media.py"
+    },
+    {
+      "label": "evaluar_media()",
+      "file_type": "code",
+      "source_file": "uni_var_media.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "uni_var_media_evaluar_media",
+      "community": 0,
+      "norm_label": "evaluar_media()"
+    },
+    {
+      "label": "evaluar_varianza()",
+      "file_type": "code",
+      "source_file": "uni_var_media.py",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "uni_var_media_evaluar_varianza",
+      "community": 0,
+      "norm_label": "evaluar_varianza()"
+    },
+    {
+      "label": "evaluar_uniformidad()",
+      "file_type": "code",
+      "source_file": "uni_var_media.py",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "uni_var_media_evaluar_uniformidad",
+      "community": 0,
+      "norm_label": "evaluar_uniformidad()"
+    },
+    {
+      "label": "reporte_simulacion()",
+      "file_type": "code",
+      "source_file": "uni_var_media.py",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "uni_var_media_reporte_simulacion",
+      "community": 0,
+      "norm_label": "reporte_simulacion()"
+    },
+    {
+      "label": "Verifica si la media de los datos tiende a 0.5 usando un intervalo de confianza.",
+      "file_type": "rationale",
+      "source_file": "uni_var_media.py",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "uni_var_media_rationale_8",
+      "community": 0,
+      "norm_label": "verifica si la media de los datos tiende a 0.5 usando un intervalo de confianza."
+    },
+    {
+      "label": "Verifica si la varianza de los datos tiende a 1/12 (aprox 0.0833).",
+      "file_type": "rationale",
+      "source_file": "uni_var_media.py",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "uni_var_media_rationale_26",
+      "community": 0,
+      "norm_label": "verifica si la varianza de los datos tiende a 1/12 (aprox 0.0833)."
+    },
+    {
+      "label": "Aplica la prueba de Chi-cuadrado para comprobar si los n\u00fameros se     distribuy",
+      "file_type": "rationale",
+      "source_file": "uni_var_media.py",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "uni_var_media_rationale_39",
+      "community": 0,
+      "norm_label": "aplica la prueba de chi-cuadrado para comprobar si los numeros se     distribuy"
+    },
+    {
+      "label": "Ejecuta las tres pruebas y genera un reporte completo de la simulaci\u00f3n.",
+      "file_type": "rationale",
+      "source_file": "uni_var_media.py",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "uni_var_media_rationale_57",
+      "community": 0,
+      "norm_label": "ejecuta las tres pruebas y genera un reporte completo de la simulacion."
+    },
+    {
+      "label": "ventana_uni_var_media.py",
+      "file_type": "code",
+      "source_file": "ventana_uni_var_media.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "ventana_uni_var_media",
+      "community": 7,
+      "norm_label": "ventana_uni_var_media.py"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "cuadrados_medios.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "cuadrados_medios",
+      "target": "cuadrados_medios_obtener_centro",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_actualizar_inputs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_configurar_tabla",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_crear_input",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_ejecutar_script_externo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "main",
+      "target": "main_generar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L96",
+      "weight": 1.0,
+      "source": "main_generar",
+      "target": "main_configurar_tabla",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "main_rationale_7",
+      "target": "main_configurar_tabla",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "main_actualizar_inputs",
+      "target": "main_crear_input",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L14",
+      "weight": 1.0,
+      "source": "main_rationale_14",
+      "target": "main_crear_input",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "main_rationale_23",
+      "target": "main_actualizar_inputs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "main_generar",
+      "target": "main_ejecutar_script_externo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "main_rationale_48",
+      "target": "main_ejecutar_script_externo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "main.py",
+      "source_location": "L87",
+      "weight": 1.0,
+      "source": "main_rationale_87",
+      "target": "main_generar",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "multiplicador_contacto.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "multiplicador_contacto",
+      "target": "multiplicador_contacto_obtener_centro",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "otro.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "otro",
+      "target": "otro_ri",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "productos_medios.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "productos_medios",
+      "target": "productos_medios_obtener_centro",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "uni_var_media",
+      "target": "uni_var_media_evaluar_media",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "uni_var_media",
+      "target": "uni_var_media_evaluar_uniformidad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "uni_var_media",
+      "target": "uni_var_media_evaluar_varianza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L56",
+      "weight": 1.0,
+      "source": "uni_var_media",
+      "target": "uni_var_media_reporte_simulacion",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "uni_var_media_rationale_8",
+      "target": "uni_var_media_evaluar_media",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L65",
+      "weight": 1.0,
+      "source": "uni_var_media_reporte_simulacion",
+      "target": "uni_var_media_evaluar_media",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "uni_var_media_rationale_26",
+      "target": "uni_var_media_evaluar_varianza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "uni_var_media_reporte_simulacion",
+      "target": "uni_var_media_evaluar_varianza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "uni_var_media_rationale_39",
+      "target": "uni_var_media_evaluar_uniformidad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L67",
+      "weight": 1.0,
+      "source": "uni_var_media_reporte_simulacion",
+      "target": "uni_var_media_evaluar_uniformidad",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "uni_var_media.py",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "uni_var_media_rationale_57",
+      "target": "uni_var_media_reporte_simulacion",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "ef59df3705861cbcab1dc5dd99c8b5bb0aa45d6c"
+}
