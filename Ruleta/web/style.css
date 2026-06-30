@@ -1,0 +1,200 @@
+/* 1. LAYOUT PRINCIPAL */
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0;
+    
+    /* Espacio arriba y abajo para que el juego no quede pegado a los bordes */
+    padding: 40px 0; 
+    
+    background: radial-gradient(circle at center, #026b2b, #013a16);
+    background-attachment: fixed;
+    color: #fff;
+    
+ /* SOLUCIÓN AL RECORTE: Usamos block en lugar de flexbox para centrar de forma segura */
+    display: block; 
+    text-align: center; 
+    min-height: 100vh;
+    overflow: auto; /* Habilita el scroll completo sin cortar bordes */
+
+}
+
+#container {
+    /* ESTO FUERZA A LA RULETA Y AL TABLERO A ESTAR LADO A LADO */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    width: 850px; 
+    height: 470px;
+    flex-shrink: 0;
+    
+    /* Zoom de la mesa */
+    transform: scale(1.15); 
+    transform-origin: top center; 
+    
+/* SOLUCIÓN AL CHOQUE: Este margen empuja la tabla con fuerza hacia abajo */
+    margin-top: 20px;
+    margin-bottom: 180px; 
+    margin-left: 120px;
+    text-align: left; /* Mantiene los textos del juego correctos */
+    
+}
+
+/* 2. TABLA INFERIOR INDEPENDIENTE */
+#stats-table {
+    margin: 0 auto;
+    display: table;
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 700px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 2px solid #d4af37;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+    text-align: center;
+}
+#stats-table th {
+    background: #111; color: #d4af37; padding: 15px; border-bottom: 2px solid #d4af37;
+    text-transform: uppercase; font-size: 16px; letter-spacing: 2px;
+}
+#stats-table td {
+    padding: 15px; border: 1px solid rgba(255, 255, 255, 0.1); font-weight: bold; font-size: 24px;
+}
+.ganancia { color: #00ff40; text-shadow: 0 0 5px rgba(0, 255, 64, 0.5); }
+.perdida { color: #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); }
+.neutro { color: #cccccc; }
+
+/* 3. PANTALLA INICIAL */
+#start-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.95); z-index: 1000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    backdrop-filter: blur(10px);
+}
+#start-screen h1 { font-size: 64px; color: #d4af37; text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); margin-bottom: 10px; }
+#start-screen p { font-size: 20px; color: #ccc; }
+#start-screen input {
+    padding: 15px; font-size: 28px; text-align: center; margin: 25px 0;
+    border-radius: 8px; width: 200px; border: 2px solid #d4af37; background: #111; color: white; outline: none;
+}
+#start-screen button {
+    padding: 15px 40px; font-size: 20px; background: linear-gradient(145deg, #ffec00, #d4c500);
+    color: black; border: none; border-radius: 30px; cursor: pointer; font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;
+}
+#start-screen button:hover { transform: scale(1.05); }
+
+/* 4. NOTIFICACIONES DEL JUEGO */
+#notification {
+    position: absolute; width: 500px; height: 318px;
+    background-color: rgba(173, 2, 5, 0.95); z-index: 10;
+    border: 4px solid #d3b201; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); transition: 1s; backdrop-filter: blur(5px);
+}
+.nSpan { display: block; position: relative; top: 105px; font-size: 53px; text-align: center; font-weight: bold; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+.nBtn {
+    display: block; position: relative; top: 116px; left: 25%; width: 45%; padding: 15px;
+    font-size: 24px; text-align: center; background-color: #016D29; border: 2px solid #fff;
+    border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); cursor: pointer; transition: all 0.3s ease;
+}
+.nBtn:hover { background-color: #028a35; transform: translateY(-2px); }
+.nBtn:active { transform: translateY(2px); box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+.nsWin { position: absolute; left: 0; width: 100%; display: flex; justify-content: center; margin-top: 10px; }
+.nsWinBlock { display: inline-block; font-size: 18px; padding: 0 15px; border-right: 1px solid rgba(255,255,255,0.3); }
+.nsWinBlock:last-child { border-right: none; }
+
+/* 5. TABLERO DE APUESTAS Y RULETA */
+#betting_board { width: 500px; height: 315px; border: 2px solid rgba(255,255,255,0.5); border-radius: 8px; background-color: rgba(0, 0, 0, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.4); position: relative; }
+.bbtop { margin-left: 2px; }
+.bbtoptwo { width: calc(50% - 8px); border: 1px solid rgba(255,255,255,0.3); display: inline-block; padding: 12px 4px; margin-left: -2px; text-align: center; font-size: 20px; font-weight: bold; transition: background 0.2s; }
+.bbtoptwo:hover { background: rgba(255,255,255,0.1); cursor: pointer; }
+.number_board { margin-left: 1px; }
+.number_block { width: 39.94px; border: 1px solid rgba(255,255,255,0.3); text-align: center; display: inline-block; margin: 0 -0.2px; padding: 32px 0px; transition: filter 0.2s; }
+.number_block:hover { filter: brightness(1.3); cursor: pointer; }
+.nbn { font-size: 20px; font-weight: bold; letter-spacing: 2px; transform: rotate(-90deg); }
+.bo3_board, .oto_board { width: 500px; margin-left: 1px; }
+.bo3_block, .oto_block { border: 1px solid rgba(255,255,255,0.3); display: inline-block; padding: 8px 5px; width: 156.65px; margin-left: -1.98px; text-align: center; font-weight: bold; font-size: 16px; transition: background 0.2s; }
+.bo3_block:hover, .oto_block:hover { background: rgba(255,255,255,0.1); cursor: pointer; }
+.oto_block { width: 114.94px; margin-left: -1.98px; }
+.number_0 { position: absolute; border: 2px solid rgba(255,255,255,0.3); margin-left: -57px; margin-top: -0.516px; padding: 120.55px 20px; border-bottom-left-radius: 100%; border-top-left-radius: 100%; background-color: #016D29; transition: filter 0.2s; }
+.number_0:hover { filter: brightness(1.3); cursor: pointer; }
+.tt1_block { border: 2px solid rgba(255,255,255,0.3); width: 65px; position: absolute; margin-left: 498px; padding: 31.65px 0px; margin-top: -89.75px; transition: background 0.2s; }
+.tt1_block:hover { background: rgba(255,255,255,0.1); cursor: pointer; }
+
+.winning_lines { position: absolute; margin-top: -137px; width: 603px; height: 0; }
+.wlttb { position: relative; width: 100%; height: 10px; margin-left: -7.75px; top: 269px; }
+#wlttb_top { position: absolute; margin-top: -89px; margin-left: 11px; }
+#wlttb_2, #wlttb_3 { margin-top: 79px; }
+.wlrtl { position: relative; display: inline-block; width: 10px; height: 266px; top: -3px; margin-left: 37px; }
+#wlrtl_2, #wlrtl_3, #wlrtl_6, #wlrtl_9, #wlrtl_11 { margin-left: 31px; }
+#wlrtl_4, #wlrtl_5, #wlrtl_7, #wlrtl_8, #wlrtl_10 { margin-left: 32px; }
+.wlcb { position: absolute; width: 477px; height: 41px; top: 255px; margin-left: 13px; }
+#wlcb_2 { top: 343px; }
+.cbbb { width: 20px; height: 20px; position: relative; display: inline-block; margin-left: 22px; margin-top: 9.5px; cursor: pointer; z-index: 4; }
+.cbbb:hover { background: rgba(255, 215, 0, 0.4); border-radius: 50%; }
+#cbbb_1, #cbbb_4, #cbbb_5, #cbbb_7, #cbbb_9, #cbbb_11, #cbbb_12, #cbbb_15, #cbbb_16, #cbbb_18, #cbbb_20, #cbbb_22 { margin-left: 21px; }
+#cbbb_3, #cbbb_14 { margin-left: 20.5px; }
+#cbbb_6, #cbbb_17 { margin-left: 23px; }
+#cbbb_8, #cbbb_10, #cbbb_19, #cbbb_21 { margin-left: 22px; }
+.ttbbetblock { width: 19.1px; height: 10px; position: relative; display: inline-block; margin-left: 22.52px; top: -2px; cursor: pointer; z-index: 3; }
+.ttbbetblock:hover { background: rgba(255, 215, 0, 0.4); }
+.rtlbb1, .rtlbb2, .rtlbb3 { height: 45px; margin-top: 23px; width: 10px; z-index: 3; cursor: pointer;}
+.rtlbb1:hover, .rtlbb2:hover, .rtlbb3:hover { background: rgba(255, 215, 0, 0.4); }
+.rtlbb2, .rtlbb3 { margin-top: 42px; }
+
+.spinBtn { position: absolute; margin-top: 329px; margin-left: -392px; font-size: 16px; cursor: pointer; background: linear-gradient(145deg, #ffec00, #d4c500); padding: 12px 25px; border-radius: 30px; color: #000; font-weight: bold; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.2s; border: 2px solid #fff; }
+.spinBtn:hover { transform: scale(1.05); }
+
+.redNum { background-color: #E0080B; }
+.blackNum { background-color: #111; }
+
+.chipDeck, .bankContainer { position: absolute; margin-left: -383px; margin-top: -74px; width: 310px; height: 39px; padding: 3px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); background: rgba(0,0,0,0.3); }
+.bankContainer { margin-top: -21px; display: flex; padding: 5px; width: 320px; justify-content: space-between; }
+.cdChip { width: 27px; height: 27px; background-color: #fff; border: 5px dashed; border-radius: 100%; display: inline-block; margin-left: 9px; color: #000; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.8); transition: transform 0.2s; }
+.cdChip:hover { transform: scale(1.1); }
+.cdChipSpan { display: inherit; position: relative; top: 5px; width: 26px; font-weight: bold; font-size: 12px; text-align: center; }
+.cdChipActive { position: relative; top: -4px; box-shadow: 0 8px 10px rgba(0,0,0,0.4); transform: scale(1.1); }
+.clearBet { border-color: #E0080B !important; background-color: #E0080B; color: #fff; margin-left: 22px; border-style: solid; }
+.clearBet .cdChipSpan { margin-left: -2px; font-size: 10px; top: 6px; }
+
+.bank, .bet { display: inline-block; width: calc(50% - 15px); background-color: #111; font-size: 16px; padding: 8px 10px; border: 2px solid #d4af37; border-radius: 8px; text-align: right; font-family: monospace; color: #d4af37; }
+.pnBlock { position: absolute; border: 1px solid rgba(255,255,255,0.2); width: 500px; height: 45px; margin-top: 10px; margin-left: -1px; border-radius: 8px; background: rgba(0,0,0,0.3); }
+#pnContent { border: 2px solid #d5b714; width: 485px; height: 31px; position: relative; display: block; margin-left: 4px; margin-top: 4px; background-color: #fff; border-radius: 4px; color: #000; overflow-x: auto; white-space: nowrap; }
+#pnContent::-webkit-scrollbar { display: none; }
+.pnRed, .pnBlack, .pnGreen { position: relative; display: inline-block; padding: 5px 10px; font-size: 18px; font-weight: bold; }
+.pnRed { color: #E0080B; } .pnBlack { color: #111; } .pnGreen { color: #016D29; }
+
+@keyframes wheelRotate { from { transform: rotate(0deg); } to { transform: rotate(359deg); } }
+@keyframes ballRotate { from { transform: rotate(0deg); } to { transform: rotate(-359deg); } }
+
+.wheel { height: 312px; width: 312px; position: relative; left: -75px; }
+.ballTrack { width: 212px; height: 207px; position: absolute; left: 47.5px; top: 50px; border-radius: 100%; z-index: 2; }
+.ball { background: radial-gradient(circle at 30% 30%, #fff, #ccc); width: 16px; height: 16px; border-radius: 100%; position: relative; left: 109px; top: -8px; box-shadow: inset -2px -2px 4px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.5); }
+.turret { border-radius: 100%; background: radial-gradient( circle at 30% 30%, #f3c620, #1a1608 ); width: 45px; height: 45px; position: absolute; top: 133px; left: 134px; z-index: 1; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
+.turretHandle { background: radial-gradient( circle at 44%, #f3c620, #6a570f); width: 87px; height: 14px; position: absolute; left: 113px; top: 148px; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
+.thendOne, .thendTwo { border-radius: 100%; background: radial-gradient( circle at 30% 30%, #f3c620, #1a1608 ); width: 25px; height: 25px; position: absolute; }
+.thendOne { top: -6px; left: -20px; } .thendTwo { top: -6px; left: 83px; }
+
+.outerRim { position: absolute; left: 0; top: 0; width: 290px; height: 290px; border-radius: 100%; box-shadow: 0px 10px 30px rgba(0,0,0,0.8); border: 10px solid transparent; background: linear-gradient(145deg, #F3c620, #8c7311) border-box; mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); mask-composite: exclude; -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0); -webkit-mask-composite: destination-out; z-index: 5; pointer-events: none; }
+.block { transition: all 1s; position: absolute; width: 290px; height: 290px; border-radius: 100%; clip: rect(0px, 145px, 290px, 0px); }
+.sect { position: absolute; top: 10px; left: 10px; width: 290px; height: 290px; border-radius: 100%; clip: rect(0px, 290px, 290px, 145px); }
+.double, .single { position: absolute; z-index: 1; color: #fff; font-size: 12px; font-weight: bold; transform: rotate(3deg); }
+.double { left: 148px; margin-top: 4.5px; } .single { left: 152px; margin-top: 4.5px; }
+
+#sect1 .block { background-color: #016D29; transform:rotate(9.73deg); }
+#sect2 .block, #sect4 .block, #sect6 .block, #sect8 .block, #sect10 .block, #sect12 .block, #sect14 .block, #sect16 .block, #sect18 .block, #sect20 .block, #sect22 .block, #sect24 .block, #sect26 .block, #sect28 .block, #sect30 .block, #sect32 .block, #sect34 .block, #sect36 .block { background-color: #E0080B; transform: rotate(9.73deg); }
+#sect3 .block, #sect5 .block, #sect7 .block, #sect9 .block, #sect11 .block, #sect13 .block, #sect15 .block, #sect17 .block, #sect19 .block, #sect21 .block, #sect23 .block, #sect25 .block, #sect27 .block, #sect29 .block, #sect31 .block, #sect33 .block, #sect35 .block, #sect37 .block { background-color: #111; transform: rotate(9.73deg); }
+
+#sect2 { transform: rotate(9.73deg); } #sect3 { transform: rotate(19.46deg); } #sect4 { transform: rotate(29.19deg); } #sect5 { transform: rotate(38.92deg); } #sect6 { transform: rotate(48.65deg); } #sect7 { transform: rotate(58.38deg); } #sect8 { transform: rotate(68.11deg); } #sect9 { transform: rotate(77.84deg); } #sect10 { transform: rotate(87.57deg); } #sect11 { transform: rotate(97.3deg); } #sect12 { transform: rotate(107.03deg); } #sect13 { transform: rotate(116.76deg); } #sect14 { transform: rotate(126.49deg); } #sect15 { transform: rotate(136.22deg); } #sect16 { transform: rotate(145.95deg); } #sect17 { transform: rotate(155.68deg); } #sect18 { transform: rotate(165.41deg); } #sect19 { transform: rotate(175.14deg); } #sect20 { transform: rotate(184.87deg); } #sect21 { transform: rotate(194.6deg); } #sect22 { transform: rotate(204.33deg); } #sect23 { transform: rotate(214.06deg); } #sect24 { transform: rotate(223.79deg); } #sect25 { transform: rotate(233.52deg); } #sect26 { transform: rotate(243.25deg); } #sect27 { transform: rotate(252.98deg); } #sect28 { transform: rotate(262.71deg); } #sect29 { transform: rotate(272.44deg); } #sect30 { transform: rotate(282.17deg); } #sect31 { transform: rotate(291.9deg); } #sect32 { transform: rotate(301.63deg); } #sect33 { transform: rotate(311.36deg); } #sect34 { transform: rotate(321.09deg); } #sect35 { transform: rotate(330.82deg); } #sect36 { transform: rotate(340.55deg); } #sect37 { transform: rotate(350.28deg); }
+
+.pockets { position: absolute; top: 37px; left: 37px; width: 235px; height: 235px; background-color: #000; border-radius: 100%; opacity: .3; }
+.pocketsRim { position: absolute; top: 34px; left: 34px; width: 235px; height: 235px; border-radius: 100%; border: 3px solid rgba(255,255,255,0.4); }
+.cone { position: absolute; top: 62px; left: 61px; height: 180px; width: 180px; border: 3px solid #9f9a9a; border-radius: 100%; background: radial-gradient(circle at 100px 100px, #892c10, #000); }
+.chip { width: 21px; height: 21px; background-color: #fff; border: 4px dashed; border-radius: 100%; position: absolute; box-shadow: 0 3px 5px rgba(0,0,0,0.5); z-index: 5; }
+.chipSpan { color: #000; font-weight: bold; font-size: 10px; position: relative; display: block; text-align: center; top: 3.5px; }
+.gold { border-color: gold; } .red { border-color: red; } .orange { border-color: orange; } .blue { border-color: blue; }
+.tt1_block .chip { margin-left: 19px; margin-top: -24px; } .number_block .chip { margin-left: 7px; margin-top: -24px; } .wlrtl .chip { margin-left: -9px; margin-top: 9px; } .cbbb .chip { margin-left: -4px; margin-top: -5px; } .ttbbetblock .chip { margin-left: -7px; margin-top: -8px; } #wlttb_top .chip { margin-left: -5px; margin-top: -8px; } .bbtoptwo .chip { margin-left: 108px; margin-top: -25px; } .number_0 .chip { margin-left: -8px; margin-top: -22px; } .bo3_block .chip { margin-left: 65px; margin-top: -26px; } .oto_block .chip { margin-left: 45px; margin-top: -25px; }
