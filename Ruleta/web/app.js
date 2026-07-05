@@ -32,8 +32,6 @@ document.getElementById('btn-start').onclick = function() {
 };
 
 
-let wheel = document.getElementsByClassName('wheel')[0];
-let ballTrack = document.getElementsByClassName('ballTrack')[0];
 
 function resetGame(){
     bankValue = 1000;
@@ -549,56 +547,53 @@ function setBet(e, n, t, o){
 function spin(){
     var winningSpin = Math.floor(Math.random() * 37);
     spinWheel(winningSpin);
+    
     setTimeout(function(){
+        let winValue = 0;
+        let betTotal = 0;
+        
+        // 1. Calcular dinero ganado y apostado
         if(numbersBet.includes(winningSpin)){
-            /*let winValue = 0;
-            let betTotal = 0;
             for(let i = 0; i < bet.length; i++){
                 var numArray = bet[i].numbers.split(',').map(Number);
                 if(numArray.includes(winningSpin)){
                     bankValue = (bankValue + (bet[i].odds * bet[i].amt) + bet[i].amt);
-                    winValue = winValue + (bet[i].odds * bet[i].amt);
-                    betTotal = betTotal + bet[i].amt;
+                    winValue += (bet[i].odds * bet[i].amt);
                 }
+                betTotal += bet[i].amt; 
             }
-            win(winningSpin, winValue, betTotal);*/
-            let winValue = 0;
-            let betTotal = 0;
-            
-            // Calcular dinero ganado y apostado
-            if(numbersBet.includes(winningSpin)){
-                for(let i = 0; i < bet.length; i++){
-                    var numArray = bet[i].numbers.split(',').map(Number);
-                    if(numArray.includes(winningSpin)){
-                        bankValue = (bankValue + (bet[i].odds * bet[i].amt) + bet[i].amt);
-                        winValue += (bet[i].odds * bet[i].amt);
-                    }
-                    betTotal += bet[i].amt; 
-                }
-                win(winningSpin, winValue, betTotal);
-            } else {
-                // Calcular lo que apostó si perdió
-                for(let i = 0; i < bet.length; i++) betTotal += bet[i].amt;
-            }
-
-            // Actualizar Estadísticas DOM
-            if(winValue > 0) winsCount++;
-            else if (betTotal > 0) lossesCount++;
-            
-            let netProfit = bankValue - initialBankValue;
-            document.getElementById('stat-wins').innerText = winsCount;
-            document.getElementById('stat-losses').innerText = lossesCount;
-            
-            let statNet = document.getElementById('stat-net');
-            if(netProfit > 0) {
-                statNet.innerText = "+$" + netProfit; statNet.className = "ganancia";
-            } else if (netProfit < 0) {
-                statNet.innerText = "-$" + Math.abs(netProfit); statNet.className = "perdida";
-            } else {
-                statNet.innerText = "$0"; statNet.className = "neutro";
+            win(winningSpin, winValue, betTotal);
+        } else {
+            // Calcular lo que apostó si perdió (ESTO AHORA SÍ SE EJECUTA)
+            for(let i = 0; i < bet.length; i++) {
+                betTotal += bet[i].amt;
             }
         }
 
+        // 2. Actualizar Estadísticas DOM (Fuera de la condición de victoria)
+        if(winValue > 0) {
+            winsCount++;
+        } else if (betTotal > 0) {
+            lossesCount++; 
+        }
+        
+        let netProfit = bankValue - initialBankValue;
+        document.getElementById('stat-wins').innerText = winsCount;
+        document.getElementById('stat-losses').innerText = lossesCount;
+        
+        let statNet = document.getElementById('stat-net');
+        if(netProfit > 0) {
+            statNet.innerText = "+$" + netProfit; 
+            statNet.className = "ganancia";
+        } else if (netProfit < 0) {
+            statNet.innerText = "-$" + Math.abs(netProfit); 
+            statNet.className = "perdida";
+        } else {
+            statNet.innerText = "$0"; 
+            statNet.className = "neutro";
+        }
+
+        // 3. Reiniciar la mesa para la siguiente ronda
         currentBet = 0;
         document.getElementById('bankSpan').innerText = '$' + bankValue.toLocaleString("en-GB") + '';
         document.getElementById('betSpan').innerText = '$' + currentBet.toLocaleString("en-GB") + '';
@@ -615,12 +610,12 @@ function spin(){
         numbersBet = [];
         removeChips();
         wager = lastWager;
+        
         if(bankValue == 0 && currentBet == 0){
             gameOver();
         }
-    }, 10000);
+    }, 10000); // Espera 10 segundos a que termine la animación de la ruleta
 }
-
 function win(winningSpin, winValue, betTotal){
     if(winValue > 0){
         let notification = document.createElement('div');
@@ -706,6 +701,12 @@ function spinWheel(winningSpin){
             degree = (i * 9.73) + 362;
         }
     }
+    
+    // --- LA SOLUCIÓN: Buscamos la ruleta en el momento exacto de girar ---
+    let wheel = document.getElementsByClassName('wheel')[0];
+    let ballTrack = document.getElementsByClassName('ballTrack')[0];
+    // ----------------------------------------------------------------------
+
     wheel.style.cssText = 'animation: wheelRotate 5s linear infinite;';
     ballTrack.style.cssText = 'animation: ballRotate 1s linear infinite;';
 

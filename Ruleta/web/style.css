@@ -146,9 +146,36 @@ html, body {
 .rtlbb1:hover, .rtlbb2:hover, .rtlbb3:hover { background: rgba(255, 215, 0, 0.4); }
 .rtlbb2, .rtlbb3 { margin-top: 42px; }
 
-.spinBtn { position: absolute; margin-top: 329px; margin-left: -392px; font-size: 16px; cursor: pointer; background: linear-gradient(145deg, #ffec00, #d4c500); padding: 12px 25px; border-radius: 30px; color: #000; font-weight: bold; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: all 0.2s; border: 2px solid #fff; }
-.spinBtn:hover { transform: scale(1.05); }
+/* --- SOLO REEMPLAZA ESTE BLOQUE --- */
+.spinBtn { 
+    /* Cambiamos absolute por fixed para anclarlo a la pantalla, no a la mesa */
+    position: fixed; 
+    
+    /* Lo fijamos en la esquina inferior derecha de tu monitor */
+    bottom: 40px; 
+    right: 50px;
+    
+    /* Borramos los márgenes problemáticos */
+    margin: 0;
+    
+    font-size: 20px; 
+    cursor: pointer; 
+    background: linear-gradient(145deg, #ffec00, #d4c500); 
+    padding: 20px 50px; 
+    border-radius: 40px; 
+    color: #000; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6); 
+    transition: all 0.2s; 
+    border: 3px solid #fff; 
+    z-index: 9999; /* Asegura que esté por encima de absolutamente todo */
+}
 
+.spinBtn:hover { 
+    transform: scale(1.1); 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.8); 
+}
 .redNum { background-color: #E0080B; }
 .blackNum { background-color: #111; }
 
