@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulador COVID-19</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Simulador de Covid</h2>
+    <div class="dashboard">
+        <div class="stat-item">Día: <span id="lbl-dia">0</span></div>
+        <div class="stat-item" style="color: #64C8FF;">Sanos: <span id="lbl-sanos">0</span></div>
+        <div class="stat-item" style="color: #FF3232;">Infectados: <span id="lbl-inf">0</span></div>
+        <div class="stat-item" style="color: #787878;">Inmunes: <span id="lbl-rec">0</span></div>
+        <div class="stat-item" style="color: #6a006a;">Fallecidos: <span id="lbl-mue">0</span></div>
+    </div>
+    <br>
+    <canvas id="tablero" width="800" height="500"></canvas>
+    <div class="controles">
+        <button id="btn-pausa" class="primary">Pausar / Reanudar</button>
+        <button id="btn-reiniciar">Reiniciar Brote</button>
+    </div>
+    
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
