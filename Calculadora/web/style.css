@@ -81,6 +81,13 @@ body {
     text-decoration: none;
     color: var(--primary);
     font-weight: 500;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.nav-links a:hover {
+    background-color: var(--primary-light);
+    border-radius: var(--radius-sm);
 }
 
 /* ==========================================================================
