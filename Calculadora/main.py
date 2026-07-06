@@ -16,6 +16,33 @@ ruta_web = os.path.join(directorio_actual, 'web')
 eel.init(ruta_web)
 
 @eel.expose
+def irInicio():
+    import subprocess
+    import os
+    import sys
+
+    print("Cerrando ruleta y volviendo al menú...")
+
+    # Carpeta donde está ESTE main.py (Ruleta)
+    carpeta_ruleta = os.path.dirname(os.path.abspath(__file__))
+
+    # Carpeta del proyecto
+    carpeta_proyecto = os.path.dirname(carpeta_ruleta)
+
+    # main.py del menú principal
+    ruta_main = os.path.join(carpeta_proyecto, "main.py")
+
+    print("Ruta:", ruta_main)
+    print("Existe:", os.path.exists(ruta_main))
+
+    subprocess.Popen(
+        [sys.executable, ruta_main],
+        cwd=carpeta_proyecto
+    )
+
+    os._exit(0) 
+
+@eel.expose
 def generar_simulacion(metodo, params):
     filas = []
     ri_list = []
