@@ -19,7 +19,7 @@
                 </svg>
                 <span>Portal<strong>Sim</strong></span>
             </div>
-            <a href="index.html" class="nav-link">Volver al Inicio</a>
+            <a onclick="irAlInicio()" class="nav-link">Volver al Inicio</a>
         </div>
     </nav>
 
@@ -59,7 +59,7 @@
                         </div>
                         
                         <button onclick="iniciar()" id="btn-iniciar" class="btn btn-primary w-full mt-1" disabled>Reiniciar Simulación</button>
-                        <button onclick="detener()" class="btn btn-outline w-full mt-1">Pausar</button>
+                        <button onclick="togglePausa()" id="btn-pausa" class="btn btn-outline w-full mt-1">Pausar</button>
                         
                         <div id="info-bar" class="hint-text mt-1 text-center">
                             Cargando gráficos...

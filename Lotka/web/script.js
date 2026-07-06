@@ -85,6 +85,30 @@ function recibir_nuevo_punto(t, ovejas, lobos, eq_ovejas, eq_lobos, alpha, beta,
     phaseChart.draw(dtPhase, phaseOptions);
 }
 
+
+let estaPausado = false;
+
+function togglePausa() {
+    let btnPausa = document.getElementById('btn-pausa');
+    
+    if (estaPausado) {
+        // Si estaba pausado, le damos PLAY
+        eel.reanudar_simulacion()();
+        btnPausa.innerText = "Pausar";
+        btnPausa.classList.remove('btn-primary');
+        btnPausa.classList.add('btn-outline');
+        estaPausado = false;
+    } else {
+        // Si estaba corriendo, lo PAUSAMOS
+        eel.detener_simulacion()();
+        btnPausa.innerText = "Reanudar (Play)";
+        btnPausa.classList.remove('btn-outline');
+        btnPausa.classList.add('btn-primary'); // Lo pintamos de verde para que resalte
+        estaPausado = true;
+    }
+}
+
+
 function iniciar() {
     inicializarGraficos();
     const a = parseFloat(document.getElementById('alpha').value);
@@ -94,7 +118,21 @@ function iniciar() {
     const ov0 = parseFloat(document.getElementById('ovejas0').value);
     const lo0 = parseFloat(document.getElementById('lobos0').value);
     
+    // Reseteamos el botón de pausa
+    estaPausado = false;
+    let btnPausa = document.getElementById('btn-pausa');
+    if(btnPausa) {
+        btnPausa.innerText = "Pausar";
+        btnPausa.classList.remove('btn-primary');
+        btnPausa.classList.add('btn-outline');
+    }
+    
     eel.iniciar_simulacion(a, b, d, g, ov0, lo0)();
 }
 
+
+function irAlInicio() {
+    eel.irAlInicio()();
+    window.close();
+}
 function detener() { eel.detener_simulacion()(); }

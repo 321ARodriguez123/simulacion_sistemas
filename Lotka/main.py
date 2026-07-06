@@ -27,8 +27,40 @@ def detener_simulacion():
     estado["corriendo"] = False
 
 @eel.expose
+def reanudar_simulacion():
+    estado["corriendo"] = True
+
+@eel.expose
 def actualizar_parametros(alpha, beta, delta, gamma):
     estado.update({"alpha": alpha, "beta": beta, "delta": delta, "gamma": gamma})
+
+
+@eel.expose
+def irAlInicio():
+    import subprocess
+    import os
+    import sys
+
+    print("Cerrando Lotka-Volterra y volviendo al menú...")
+
+    # Carpeta donde está ESTE main.py (Lotka)
+    carpeta_actual = os.path.dirname(os.path.abspath(__file__))
+
+    # Carpeta del proyecto
+    carpeta_proyecto = os.path.dirname(carpeta_actual)
+
+    # main.py del menú principal
+    ruta_main = os.path.join(carpeta_proyecto, "main.py")
+
+    print("Ruta:", ruta_main)
+    print("Existe:", os.path.exists(ruta_main))
+
+    subprocess.Popen(
+        [sys.executable, ruta_main],
+        cwd=carpeta_actual
+    )
+
+    os._exit(0)
 
 def loop_simulacion():
     while True:
@@ -59,8 +91,9 @@ def loop_simulacion():
         eel.sleep(0.05)
 
 if __name__ == '__main__':
+    
     eel.spawn(loop_simulacion)
     try:
-        eel.start('index.html', mode='edge', size=(1200, 900))
+        eel.start('index.html', mode='edge', cmdline_args=['--start-maximized'], port=0)
     except EnvironmentError:
-        eel.start('index.html', size=(1200, 900))
+        eel.start('index.html', cmdline_args=['--start-maximized'], port=0)
