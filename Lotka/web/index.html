@@ -9,71 +9,78 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="/eel.js"></script>
 </head>
-<body>
-    <div class="dashboard">
-        <header>
-            <h1>Modelo Depredador-Presa (Google Charts)</h1>
-        </header>
+<body class="bg-green-50">
 
-        <div class="charts-wrapper">
-            <div class="chart-card">
-                <h2>Dinámica en el tiempo</h2>
-                <div class="canvas-container">
-                    <div id="timeChart" style="width: 100%; height: 100%;"></div>
-                </div>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
+                </svg>
+                <span>Portal<strong>Sim</strong></span>
             </div>
-            <div class="chart-card">
-                <h2>Espacio de fase</h2>
-                <div class="canvas-container">
-                    <div id="phaseChart" style="width: 100%; height: 100%;"></div>
+            <a href="index.html" class="nav-link">Volver al Inicio</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="view-section max-w-5xl fade-in">
+            <div class="panel">
+                <h2 class="panel-title">Modelo Lotka-Volterra</h2>
+                <p class="panel-subtitle">Simulación de la dinámica entre Lobos (Depredadores) y Ovejas (Presas)</p>
+                
+                <div class="flex-layout">
+                    <div class="controls-sidebar">
+                        <div class="input-group">
+                            <label>Ovejas iniciales (<strong id="val_ovejas0">40</strong>)</label>
+                            <input type="range" id="ovejas0" min="1" max="100" step="1" value="40" class="w-full">
+                        </div>
+                        <div class="input-group">
+                            <label>Lobos iniciales (<strong id="val_lobos0">9</strong>)</label>
+                            <input type="range" id="lobos0" min="1" max="50" step="1" value="9" class="w-full">
+                        </div>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label>Crec. Ovejas (α): <br><strong id="val_alpha" class="text-green">0.50</strong></label>
+                                <input type="range" id="alpha" min="0.01" max="1.0" step="0.01" value="0.5" class="w-full">
+                            </div>
+                            <div class="input-group">
+                                <label>Caza (β): <br><strong id="val_beta" class="text-green">0.02</strong></label>
+                                <input type="range" id="beta" min="0.01" max="0.1" step="0.01" value="0.02" class="w-full">
+                            </div>
+                            <div class="input-group">
+                                <label>Nutrición (δ): <br><strong id="val_delta" class="text-green">0.01</strong></label>
+                                <input type="range" id="delta" min="0.001" max="0.1" step="0.001" value="0.01" class="w-full">
+                            </div>
+                            <div class="input-group">
+                                <label>Muerte Lobos (γ): <br><strong id="val_gamma" class="text-green">0.30</strong></label>
+                                <input type="range" id="gamma" min="0.01" max="1.0" step="0.01" value="0.3" class="w-full">
+                            </div>
+                        </div>
+                        
+                        <button onclick="iniciar()" id="btn-iniciar" class="btn btn-primary w-full mt-1" disabled>Reiniciar Simulación</button>
+                        <button onclick="detener()" class="btn btn-outline w-full mt-1">Pausar</button>
+                        
+                        <div id="info-bar" class="hint-text mt-1 text-center">
+                            Cargando gráficos...
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <div class="lv-chart-area">
+                            <h3 class="chart-title">Dinámica en el tiempo</h3>
+                            <div id="timeChart" class="h-full w-full"></div>
+                        </div>
+                        <div class="lv-chart-area mt-2">
+                            <h3 class="chart-title">Espacio de fase</h3>
+                            <div id="phaseChart" class="h-full w-full"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <div class="info-bar" id="info-bar">
-            Cargando gráficos...
-        </div>
-
-        <div class="controls-panel">
-            <div class="sliders-grid">
-                <div class="slider-row">
-                    <label>alpha: crecimiento ovejas</label>
-                    <input type="range" id="alpha" min="0.01" max="1.0" step="0.01" value="0.5">
-                    <span class="value-display" id="val_alpha">0.50</span>
-                </div>
-                <div class="slider-row">
-                    <label>beta: caza de lobos</label>
-                    <input type="range" id="beta" min="0.01" max="0.1" step="0.01" value="0.02">
-                    <span class="value-display" id="val_beta">0.02</span>
-                </div>
-                <div class="slider-row">
-                    <label>delta: crecimiento lobos</label>
-                    <input type="range" id="delta" min="0.001" max="0.1" step="0.001" value="0.01">
-                    <span class="value-display" id="val_delta">0.01</span>
-                </div>
-                <div class="slider-row">
-                    <label>gamma: muerte lobos</label>
-                    <input type="range" id="gamma" min="0.01" max="1.0" step="0.01" value="0.3">
-                    <span class="value-display" id="val_gamma">0.30</span>
-                </div>
-                <div class="slider-row">
-                    <label>Ovejas iniciales</label>
-                    <input type="range" id="ovejas0" min="1" max="100" step="1" value="40">
-                    <span class="value-display" id="val_ovejas0">40</span>
-                </div>
-                <div class="slider-row">
-                    <label>Lobos iniciales</label>
-                    <input type="range" id="lobos0" min="1" max="50" step="1" value="9">
-                    <span class="value-display" id="val_lobos0">9</span>
-                </div>
-            </div>
-            
-            <div class="actions">
-                <button class="btn-primary" onclick="iniciar()" id="btn-iniciar" disabled>Reiniciar Simulación</button>
-                <button class="btn-danger" onclick="detener()">Pausar</button>
-            </div>
-        </div>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>
