@@ -1,9 +1,6 @@
 import eel
-import random
-import time
 import os
 import numpy as np
-from scipy.stats import norm, gamma, weibull_min, erlang
 
 # Importamos tu lógica de simulación
 import cuadrados_medios
@@ -11,8 +8,9 @@ import productos_medios
 import multiplicador_contacto
 import otro
 import uni_var_media
+import graficos  # <--- Importamos tu archivo de gráficos actualizado
 
-# Inicializamos la carpeta del frontend usando la ruta absoluta
+# Inicializamos la carpeta del frontend
 directorio_actual = os.path.dirname(os.path.abspath(__file__))
 ruta_web = os.path.join(directorio_actual, 'web')
 eel.init(ruta_web)
@@ -34,14 +32,15 @@ def generar_simulacion(metodo, params):
         elif metodo == "Congruencial Lineal":
             filas, ri_list = otro.generar(int(params['a']), int(params['c']), int(params['semilla']), int(params['m']), rango)
 
-        # Generamos los datos estructurados en lugar de texto
         stats = None
         if ri_list:
             m_ok, m_calc, m_tol = uni_var_media.evaluar_media(ri_list)
             v_ok, v_calc, v_esp = uni_var_media.evaluar_varianza(ri_list)
             u_ok, p_val = uni_var_media.evaluar_uniformidad(ri_list)
             
-            # PYTHON HACE TODA LA LÓGICA Y FORMATEO
+            min_ri = float(np.min(ri_list))
+            max_ri = float(np.max(ri_list))
+            
             stats = {
                 "media": {
                     "val": f"{m_calc:.4f}", 
@@ -59,7 +58,9 @@ def generar_simulacion(metodo, params):
                     "p": f"{p_val:.4f}", 
                     "texto": "✅ PASÓ" if u_ok else "❌ FALLÓ",
                     "clase": "status-pass" if u_ok else "status-fail"
-                }
+                },
+                "min_ri": f"{min_ri:.4f}",
+                "max_ri": f"{max_ri:.4f}"
             }
         
         return {"status": "success", "filas": filas, "ri_list": ri_list, "stats": stats}
@@ -68,78 +69,14 @@ def generar_simulacion(metodo, params):
 
 @eel.expose
 def procesar_graficos(ri_list, distribucion, params):
-    if not ri_list:
-        return {"status": "error", "message": "No hay datos para graficar."}
-        
     try:
-        ri_arr = np.array(ri_list)
+        # Llamamos directamente a la lógica que modularizaste en graficos.py
+        datos_grafico = graficos.obtener_datos_graficos(ri_list, distribucion, params)
+        datos_grafico["status"] = "success"
+        return datos_grafico
         
-        # === TRANSFORMACIONES ESTADÍSTICAS ===
-        if distribucion == "Uniforme":
-            a = float(params.get('a', 0))
-            b = float(params.get('b', 1))
-            transformados = a + (b - a) * ri_arr
-            titulo = f"Uniforme (a={a}, b={b})"
-            
-        elif distribucion == "Exponencial":
-            lam = float(params.get('lambda', 1.0))
-            transformados = (-1 / lam) * np.log(1 - ri_arr + 1e-10)
-            titulo = f"Exponencial (λ={lam})"
-            
-        elif distribucion == "Normal":
-            mu = float(params.get('mu', 0))
-            sigma = float(params.get('sigma', 1))
-            transformados = norm.ppf(ri_arr, loc=mu, scale=sigma)
-            titulo = f"Normal (μ={mu}, σ={sigma})"
-            
-        elif distribucion == "Gamma":
-            alfa = float(params.get('alfa', 2.0))
-            beta = float(params.get('beta', 1.0))
-            # scipy usa 'a' para forma (alfa) y 'scale' para escala (beta)
-            transformados = gamma.ppf(ri_arr, a=alfa, scale=beta)
-            titulo = f"Gamma (α={alfa}, β={beta})"
-            
-        elif distribucion == "k-Erlang":
-            k = int(params.get('k', 2))
-            lam_erlang = float(params.get('lam_erlang', 1.0))
-            # Erlang es un caso especial de Gamma donde k es entero
-            transformados = erlang.ppf(ri_arr, a=k, scale=1/lam_erlang)
-            titulo = f"k-Erlang (k={k}, λ={lam_erlang})"
-            
-        elif distribucion == "Weibull":
-            k_w = float(params.get('k_w', 1.5)) # Forma
-            lam_w = float(params.get('lam_w', 1.0)) # Escala
-            transformados = weibull_min.ppf(ri_arr, c=k_w, scale=lam_w)
-            titulo = f"Weibull (k={k_w}, λ={lam_w})"
-            
-        else:
-            transformados = ri_arr
-            titulo = "Original U(0,1)"
-
-        # Asegurarnos de limpiar valores inválidos por límites matemáticos (inf/nan)
-        transformados = np.nan_to_num(transformados, nan=0.0, posinf=0.0, neginf=0.0)
-
-        # === AGRUPACIÓN PARA HISTOGRAMA (Estilo Excel) ===
-        counts, bin_edges = np.histogram(transformados, bins='auto')
-        
-        # Formatear etiquetas de X como rangos matemáticos [min, max] idéntico a Excel
-        hist_labels = [f"[{bin_edges[i]:.2f}, {bin_edges[i+1]:.2f}]" for i in range(len(counts))]
-        hist_data = counts.tolist()
-
-        # Datos para Dispersión
-        scatter_data = [{"x": float(transformados[i]), "y": float(transformados[i+1])} for i in range(len(transformados)-1)] if len(transformados) > 1 else []
-
-        return {
-            "status": "success",
-            "titulo": titulo,
-            "hist_labels": hist_labels,
-            "hist_data": hist_data,
-            "scatter_data": scatter_data
-        }
     except Exception as e:
         return {"status": "error", "message": str(e)}
-    
 
 if __name__ == '__main__':
-    # Lanzamos la aplicación Eel en una ventana de Chrome/Edge
     eel.start('index.html', mode='edge', size=(1200, 800), position=(100, 50))

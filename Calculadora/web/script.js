@@ -10,9 +10,8 @@ const configMetodos = {
     "Congruencial Lineal": ["a", "c", "m", "semilla", "rango"]
 };
 
-// 2. CONFIGURACIÓN CORREGIDA: Nombres idénticos a los del HTML
+// 2. CONFIGURACIÓN: Quitamos "Uniforme" de aquí para manejarlo manual y que no sea input
 const configGraficos = {
-    "Uniforme": [{ id: "a", label: "Min (a):", val: "0" }, { id: "b", label: "Max (b):", val: "100" }],
     "Exponencial": [{ id: "lambda", label: "Tasa (λ):", val: "1.0" }],
     "Normal": [{ id: "mu", label: "Media (μ):", val: "0" }, { id: "sigma", label: "Desv (σ):", val: "1" }],
     "Gamma": [{ id: "alfa", label: "Forma (α):", val: "2.0" }, { id: "beta", label: "Escala (β):", val: "1.0" }],
@@ -49,10 +48,35 @@ function actualizarInputsGraficos() {
     const dist = document.getElementById("dist-select").value;
     const container = document.getElementById("chart-inputs");
     container.innerHTML = "";
-    // Verificación de seguridad
-    if(configGraficos[dist]) {
+    
+    // CASO ESPECIAL: Uniforme. Calcula el min/max real y los muestra como texto.
+    if (dist === "Uniforme") {
+        let min = "0.0000";
+        let max = "1.0000";
+        
+        // Si ya hay datos generados, sacamos el mínimo y máximo real
+        if (currentRiList && currentRiList.length > 0) {
+            min = Math.min(...currentRiList).toFixed(4);
+            max = Math.max(...currentRiList).toFixed(4);
+        }
+
+        container.innerHTML = `
+            <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:0.85rem; font-weight:600; color: #64748b;">Min:</span>
+                <span style="font-weight:bold; color: #22c55e;">${min}</span>
+                <input type="hidden" id="g-input-a" value="${min}">
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; margin-left: 10px;">
+                <span style="font-size:0.85rem; font-weight:600; color: #64748b;">Max:</span>
+                <span style="font-weight:bold; color: #22c55e;">${max}</span>
+                <input type="hidden" id="g-input-b" value="${max}">
+            </div>
+        `;
+    } 
+    // Para el resto de distribuciones sí se dibujan los inputs
+    else if (configGraficos[dist]) {
         configGraficos[dist].forEach(campo => {
-            container.innerHTML += `<div style="display:flex; align-items:center; gap:5px;"><label style="font-size:0.85rem; font-weight:600;">${campo.label}</label><input type="number" step="0.1" id="g-input-${campo.id}" value="${campo.val}"></div>`;
+            container.innerHTML += `<div style="display:flex; align-items:center; gap:5px;"><label style="font-size:0.85rem; font-weight:600; color:#4b5563;">${campo.label}</label><input type="number" step="0.1" id="g-input-${campo.id}" value="${campo.val}" style="width: 70px; padding: 5px; border: 1px solid #d1d5db; border-radius: 6px;"></div>`;
         });
     }
 }
@@ -80,7 +104,6 @@ async function generarSimulacion() {
 
         currentRiList = response.ri_list;
         
-       // --- LLENADO DE DATOS SIN LÓGICA EN JS ---
         const emptyState = document.getElementById("stats-empty");
         const contentState = document.getElementById("stats-content");
 
@@ -90,21 +113,18 @@ async function generarSimulacion() {
             emptyState.style.display = "none";
             contentState.style.display = "flex";
 
-            // 1. Llenar Media (Sin lógica de if/else)
             document.getElementById("media-val").innerText = s.media.val;
             document.getElementById("media-tol").innerText = s.media.tol;
             const mediaStatus = document.getElementById("media-status");
             mediaStatus.innerText = s.media.texto;
             mediaStatus.className = `status-indicator ${s.media.clase}`;
 
-            // 2. Llenar Varianza
             document.getElementById("var-val").innerText = s.varianza.val;
             document.getElementById("var-esp").innerText = s.varianza.esp;
             const varStatus = document.getElementById("var-status");
             varStatus.innerText = s.varianza.texto;
             varStatus.className = `status-indicator ${s.varianza.clase}`;
 
-            // 3. Llenar Uniformidad
             document.getElementById("unif-val").innerText = s.uniformidad.p;
             const unifStatus = document.getElementById("unif-status");
             unifStatus.innerText = s.uniformidad.texto;
@@ -115,10 +135,11 @@ async function generarSimulacion() {
             emptyState.innerText = "Sin datos generados.";
             contentState.style.display = "none";
         }
-        // --- FIN DEL LLENADO ---
 
         dibujarTabla(response.filas);
         
+        // Refrescamos los textos por si estaba seleccionada la Uniforme
+        actualizarInputsGraficos();
         await actualizarGraficos(); 
         
     } catch (error) {
@@ -142,12 +163,20 @@ async function actualizarGraficos() {
     try {
         const distribucion = document.getElementById("dist-select").value;
         const params = {};
-        if(configGraficos[distribucion]) {
+        
+        // Especial para Uniforme: recogemos los valores de los inputs ocultos
+        if (distribucion === "Uniforme") {
+            params["a"] = document.getElementById("g-input-a").value;
+            params["b"] = document.getElementById("g-input-b").value;
+        } else if(configGraficos[distribucion]) {
             configGraficos[distribucion].forEach(campo => {
                 params[campo.id] = document.getElementById(`g-input-${campo.id}`).value;
             });
         }
 
+        // NUEVO: Capturamos la cantidad de rangos deseados
+        params["rangos"] = document.getElementById("g-input-rangos").value;
+        // Aquí es donde se envía todo a Python
         const response = await eel.procesar_graficos(currentRiList, distribucion, params)();
         
         if (response.status === "error") {
@@ -187,7 +216,7 @@ function dibujarTabla(filas) {
 
 function dibujarHistogramaGC(titulo, labels, data) {
     const dataTable = new google.visualization.DataTable();
-    dataTable.addColumn('string', 'Rango');
+    dataTable.addColumn('string', 'Intervalo');
     dataTable.addColumn('number', 'Frecuencia');
     
     const filasFormateadas = labels.map((label, i) => [label, data[i]]);
@@ -197,7 +226,7 @@ function dibujarHistogramaGC(titulo, labels, data) {
         title: titulo,
         titleTextStyle: { fontSize: 16, color: '#0f172a' },
         legend: { position: 'none' },
-        colors: ['#4472C4'], // Azul de Excel
+        colors: ['#22c55e'], 
         bar: { groupWidth: '98%' }, 
         hAxis: { 
             title: 'Rangos', 
@@ -235,4 +264,9 @@ function dibujarDispersionGC(dataObjects) {
 
     const chart = new google.visualization.ScatterChart(document.getElementById('scatterChart'));
     chart.draw(dataTable, options);
+}
+
+function irInicio(){
+    eel.irInicio()();
+    window.close();
 }

@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Análisis de Números Pseudoaleatorios</title>
+    <title>Análisis de Números Pseudoaleatorios - PortalSim</title>
     <script type="text/javascript" src="/eel.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="icon">⬡</span> PortalSim
+        </div>
+        <div class="nav-links">
+            <a onclick="irInicio()">Volver a Inicio</a>
+        </div>
+    </nav>
+
     <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -28,8 +37,7 @@
             
             <div class="sidebar-section">
                 <h3>Parámetros</h3>
-                <div id="dynamic-inputs" class="inputs-container">
-                    </div>
+                <div id="dynamic-inputs" class="inputs-container"></div>
             </div>
             
             <button id="btn-generar" class="btn-primary">
@@ -39,9 +47,7 @@
         </aside>
 
         <main class="main-content">
-            <header class="top-header">
-                <h1>Dashboard Estadístico</h1>
-            </header>
+            
 
             <div class="content-grid">
                 <div class="card table-card">
@@ -62,18 +68,17 @@
                     </div>
                     
                     <div class="stats-grid">
-                        <div id="stats-empty" style="padding: 20px; color: var(--text-muted); text-align: center;">
+                        <div id="stats-empty" class="empty-state">
                             Esperando ejecución...
                         </div>
 
                         <div id="stats-content" style="display: none; flex-direction: column; gap: 12px;">
-                            
                             <div class="stat-badge">
                                 <div class="stat-info">
                                     <span class="stat-title">Media</span>
                                     <span class="stat-value">
                                         <span id="media-val">0.0000</span> 
-                                        <span style="font-size:0.8em; color:var(--text-muted);">(Tol: ±<span id="media-tol">0.0000</span>)</span>
+                                        <span class="stat-muted">(Tol: ±<span id="media-tol">0.0000</span>)</span>
                                     </span>
                                 </div>
                                 <span id="media-status" class="status-indicator">...</span>
@@ -84,7 +89,7 @@
                                     <span class="stat-title">Varianza</span>
                                     <span class="stat-value">
                                         <span id="var-val">0.0000</span> 
-                                        <span style="font-size:0.8em; color:var(--text-muted);">(Esp: <span id="var-esp">0.0000</span>)</span>
+                                        <span class="stat-muted">(Esp: <span id="var-esp">0.0000</span>)</span>
                                     </span>
                                 </div>
                                 <span id="var-status" class="status-indicator">...</span>
@@ -97,7 +102,6 @@
                                 </div>
                                 <span id="unif-status" class="status-indicator">...</span>
                             </div>
-                            
                         </div>
                     </div>
                 </div>
@@ -115,6 +119,12 @@
                                 <option value="Weibull">Weibull</option>
                             </select>
                             <div id="chart-inputs" class="chart-inputs-inline"></div>
+                            
+                            <div style="display:flex; align-items:center; gap:5px; margin-left:10px; padding-left:10px; border-left: 2px solid #e5e7eb;">
+                                <label style="font-size:0.85rem; font-weight:600; color:#4b5563;">Intervalos:</label>
+                                <input type="number" id="g-input-rangos" value="10" min="2" max="100" style="width: 60px; padding: 5px; border: 1px solid #d1d5db; border-radius: 6px;">
+                            </div>
+                            
                             <button id="btn-graficar" class="btn-secondary">Graficar</button>
                         </div>
                     </div>
@@ -127,6 +137,7 @@
             </div>
         </main>
     </div>
+    <script type="text/javascript" src="/eel.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
