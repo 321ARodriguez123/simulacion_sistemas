@@ -68,4 +68,9 @@ async function arrancarApp() {
     loop();
 }
 
+function irInicio(){
+    eel.irInicio()();
+    window.close();
+}
+
 arrancarApp();

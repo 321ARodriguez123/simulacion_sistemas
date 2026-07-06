@@ -8,6 +8,32 @@ ROWS = 500 // 8
 
 # Instancia global del juego
 game = CovidSimulation(COLS, ROWS)
+@eel.expose
+def irInicio():
+    import subprocess
+    import os
+    import sys
+
+    print("Cerrando Covid y volviendo al menú...")
+
+    # Carpeta donde está ESTE main.py (Covid)
+    carpeta_actual = os.path.dirname(os.path.abspath(__file__))
+
+    # Carpeta del proyecto
+    carpeta_proyecto = os.path.dirname(carpeta_actual)
+
+    # main.py del menú principal
+    ruta_main = os.path.join(carpeta_proyecto, "main.py")
+
+    print("Ruta:", ruta_main)
+    print("Existe:", os.path.exists(ruta_main))
+
+    subprocess.Popen(
+        [sys.executable, ruta_main],
+        cwd=carpeta_actual
+    )
+
+    os._exit(0)
 
 @eel.expose
 def get_initial_state():
