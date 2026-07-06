@@ -12,12 +12,24 @@
     <link href="./style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="28" height="28" style="color: #22c55e;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
+                </svg>
+                <span><span style="color: #22c55e;">Portal</span><strong style="color: #1f2937;">Sim</strong></span>
+            </div>
+            <a href="#" onclick="volverAlInicio()" class="nav-link">Volver al Inicio</a>
+        </div>
+    </nav>
     <div id="start-screen">
         <h1>CASINO ROYALE</h1>
         <p>Ingresa tu saldo inicial para sentarte a la mesa:</p>
         <input type="number" id="start-balance" value="1000" min="1">
         <button id="btn-start">ENTRAR A JUGAR</button>
     </div>
+    <script type="text/javascript" src="/eel.js"></script>
     <script src="./app.js"></script>
 </body>
 </html>

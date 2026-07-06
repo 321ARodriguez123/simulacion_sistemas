@@ -1,5 +1,5 @@
 /* 1. LAYOUT PRINCIPAL */
-html, body {
+/*html, body {
     font-family: 'Montserrat', sans-serif;
     cursor: default;
     -webkit-user-select: none;
@@ -9,23 +9,23 @@ html, body {
     margin: 0;
     
     /* Espacio arriba y abajo para que el juego no quede pegado a los bordes */
-    padding: 40px 0; 
+/*    padding: 40px 0; 
     
     background: radial-gradient(circle at center, #026b2b, #013a16);
     background-attachment: fixed;
     color: #fff;
     
  /* SOLUCIÓN AL RECORTE: Usamos block en lugar de flexbox para centrar de forma segura */
-    display: block; 
+/*    display: block; 
     text-align: center; 
     min-height: 100vh;
     overflow: auto; /* Habilita el scroll completo sin cortar bordes */
 
-}
+/*}*/
 
-#container {
+/*#container {
     /* ESTO FUERZA A LA RULETA Y AL TABLERO A ESTAR LADO A LADO */
-    display: flex;
+/*    display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -35,21 +35,61 @@ html, body {
     flex-shrink: 0;
     
     /* Zoom de la mesa */
-    transform: scale(1.15); 
+/*    transform: scale(1.15); 
     transform-origin: top center; 
     
 /* SOLUCIÓN AL CHOQUE: Este margen empuja la tabla con fuerza hacia abajo */
-    margin-top: 20px;
+    /*margin-top: 10px;
     margin-bottom: 180px; 
-    margin-left: 120px;
+    margin-left: 220px;
     text-align: left; /* Mantiene los textos del juego correctos */
+ /*   margin: 10px auto; 
     
+    transform: scale(1.15); 
+    transform-origin: top center; 
+    position: relative;
+    text-align: left;
+    
+}*/
+
+/* 1. LAYOUT PRINCIPAL */
+html, body {
+    font-family: 'Montserrat', sans-serif;
+    user-select: none;
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at center, #026b2b, #013a16);
+    color: #fff;
+    min-height: 100vh;
+    display: block; 
+    overflow: auto;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 850px; 
+    height: 470px;
+    flex-shrink: 0;
+    margin: 60px auto 10px auto; 
+    transform: scale(1.15); 
+    transform-origin: top center; 
+    position: relative;
+    text-align: left;
+    
+    /* Efecto de tapete de casino aislado */
+    background: radial-gradient(circle at center, #026b2b, #013a16);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
 }
 
 /* 2. TABLA INFERIOR INDEPENDIENTE */
-#stats-table {
-    margin: 0 auto;
-    display: table;
+/*#stats-table {
+    margin: 190px auto 20px auto; /* Centrado horizontal y espacio arriba */
+/*    display: table;
     border-collapse: collapse;
     width: 80%;
     max-width: 700px;
@@ -68,9 +108,29 @@ html, body {
 .ganancia { color: #00ff40; text-shadow: 0 0 5px rgba(0, 255, 64, 0.5); }
 .perdida { color: #ff3333; text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); }
 .neutro { color: #cccccc; }
+*/
 
+/* 2. TABLA INFERIOR INDEPENDIENTE */
+#stats-table {
+    margin: 150px auto 40px auto;
+    display: table;
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 700px;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    text-align: center;
+    border: 1px solid #dcfce7;
+}
+#stats-table th { background: #22c55e; color: white; padding: 15px; text-transform: uppercase; font-size: 16px; letter-spacing: 1px; }
+#stats-table td { padding: 15px; border: 1px solid #f3f4f6; font-weight: bold; font-size: 24px; color: #1f2937; }
+.ganancia { color: #16a34a; }
+.perdida { color: #dc2626; }
+.neutro { color: #9ca3af; }
 /* 3. PANTALLA INICIAL */
-#start-screen {
+/*#start-screen {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0, 0, 0, 0.95); z-index: 1000;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
@@ -88,7 +148,28 @@ html, body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.5); transition: transform 0.2s;
 }
 #start-screen button:hover { transform: scale(1.05); }
+*/
 
+/* 3. PANTALLA INICIAL */
+#start-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(240, 253, 244, 0.95);
+    z-index: 1000;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+}
+#start-screen h1 { font-size: 64px; color: #16a34a; font-weight: 800; margin-bottom: 10px; }
+#start-screen p { font-size: 20px; color: #4b5563; font-weight: 600; }
+#start-screen input {
+    padding: 15px; font-size: 28px; text-align: center; margin: 25px 0;
+    border-radius: 12px; width: 200px; border: 2px solid #22c55e; background: white; color: #1f2937; outline: none;
+}
+#start-screen button {
+    padding: 15px 40px; font-size: 20px; background: #22c55e;
+    color: white; border: none; border-radius: 30px; cursor: pointer; font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;
+}
+#start-screen button:hover { transform: scale(1.05); background: #16a34a; }
 /* 4. NOTIFICACIONES DEL JUEGO */
 #notification {
     position: absolute; width: 500px; height: 318px;
@@ -147,16 +228,17 @@ html, body {
 .rtlbb2, .rtlbb3 { margin-top: 42px; }
 
 /* --- SOLO REEMPLAZA ESTE BLOQUE --- */
-.spinBtn { 
+/*.spinBtn { 
     /* Cambiamos absolute por fixed para anclarlo a la pantalla, no a la mesa */
-    position: fixed; 
+ /*   position: fixed; 
     
     /* Lo fijamos en la esquina inferior derecha de tu monitor */
-    bottom: 40px; 
-    right: 50px;
+ /*   bottom: -170px; 
+    right: -75px;
+    
     
     /* Borramos los márgenes problemáticos */
-    margin: 0;
+/*    margin: 0;
     
     font-size: 20px; 
     cursor: pointer; 
@@ -170,14 +252,55 @@ html, body {
     transition: all 0.2s; 
     border: 3px solid #fff; 
     z-index: 9999; /* Asegura que esté por encima de absolutamente todo */
-}
+/*}
 
 .spinBtn:hover { 
     transform: scale(1.1); 
     box-shadow: 0 15px 30px rgba(0,0,0,0.8); 
+}*/
+
+
+.spinBtn { 
+    position: fixed; 
+    bottom: -170px; 
+    right: -75px;
+    margin: 0;
+    z-index: 9999; 
+    
+    font-size: 20px; 
+    cursor: pointer; 
+    background: #22c55e; 
+    padding: 15px 40px; 
+    border-radius: 30px; 
+    color: white; 
+    font-weight: bold; 
+    text-transform: uppercase; 
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2); 
+    border: none; 
 }
+.spinBtn:hover { 
+    transform: scale(1.05); 
+    background: #16a34a; 
+}
+
+
+/* ESTILOS DE LA BARRA DE NAVEGACIÓN */
+.logo { display: flex; align-items: center; gap: 8px; }
 .redNum { background-color: #E0080B; }
 .blackNum { background-color: #111; }
+.navbar { 
+    background: #ffffff; 
+    border-bottom: 2px solid #bbf7d0; 
+    position: sticky; top: 0; z-index: 50; 
+}
+.nav-container { 
+    max-width: 1200px; margin: 0 auto; padding: 0 20px; 
+    height: 60px; display: flex; justify-content: space-between; align-items: center; 
+}
+.nav-link { 
+    text-decoration: none; color: #22c55e; font-weight: 600; font-size: 16px; 
+}
+.nav-link:hover { color: #16a34a; }
 
 .chipDeck, .bankContainer { position: absolute; margin-left: -383px; margin-top: -74px; width: 310px; height: 39px; padding: 3px 0; border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); background: rgba(0,0,0,0.3); }
 .bankContainer { margin-top: -21px; display: flex; padding: 5px; width: 320px; justify-content: space-between; }

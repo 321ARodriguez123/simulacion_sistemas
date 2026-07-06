@@ -5,6 +5,7 @@ let lastWager = 0;
 let bet = [];
 let numbersBet = [];
 let previousNumbers = [];
+let isSpinning = false;
 
 let numRed = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
 let wheelnumbersAC = [0, 26, 3, 35, 12, 28, 7, 29, 18, 22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10, 23, 8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32];
@@ -419,6 +420,7 @@ function buildBettingBoard(){
         chip.setAttribute('class', 'cdChip ' + chipColour);
         
         chip.onclick = function(){
+            if (isSpinning) return;
             if(cvi !== 4){
                 let cdChipActive = document.getElementsByClassName('cdChipActive');
                 for(let j = 0; j < cdChipActive.length; j++){
@@ -487,6 +489,7 @@ function clearBet(){
 }
 
 function setBet(e, n, t, o){
+    if(isSpinning) return;
     lastWager = wager;
     wager = (bankValue < wager)? bankValue : wager;
     if(wager > 0){
@@ -545,6 +548,7 @@ function setBet(e, n, t, o){
 }
 
 function spin(){
+    isSpinning = true;
     var winningSpin = Math.floor(Math.random() * 37);
     spinWheel(winningSpin);
     
@@ -614,6 +618,7 @@ function spin(){
         if(bankValue == 0 && currentBet == 0){
             gameOver();
         }
+        isSpinning = false;
     }, 10000); // Espera 10 segundos a que termine la animación de la ruleta
 }
 function win(winningSpin, winValue, betTotal){
@@ -666,6 +671,7 @@ function win(winningSpin, winValue, betTotal){
 }
 
 function removeBet(e, n, t, o){
+    if (isSpinning) return;
     wager = (wager == 0)? 100 : wager;
     for(let i = 0; i < bet.length; i++){
         if(bet[i].numbers == n && bet[i].type == t){
@@ -742,5 +748,8 @@ function removeChips(){
     }
 }
 
-
+function volverAlInicio() {
+    eel.volver_al_menu_principal()();
+    window.close();
+}
 
