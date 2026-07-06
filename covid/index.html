@@ -6,22 +6,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Simulador de Covid</h2>
-    <div class="dashboard">
-        <div class="stat-item">Día: <span id="lbl-dia">0</span></div>
-        <div class="stat-item" style="color: #64C8FF;">Sanos: <span id="lbl-sanos">0</span></div>
-        <div class="stat-item" style="color: #FF3232;">Infectados: <span id="lbl-inf">0</span></div>
-        <div class="stat-item" style="color: #787878;">Inmunes: <span id="lbl-rec">0</span></div>
-        <div class="stat-item" style="color: #6a006a;">Fallecidos: <span id="lbl-mue">0</span></div>
-    </div>
-    <br>
-    <canvas id="tablero" width="800" height="500"></canvas>
-    <div class="controles">
-        <button id="btn-pausa" class="primary">Pausar / Reanudar</button>
-        <button id="btn-reiniciar">Reiniciar Brote</button>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="icon">⬡</span> PortalSim
+        </div>
+        <div class="nav-links">
+            <a onclick="irInicio()">Volver a Inicio</a>
+        </div>
+    </nav>
+
+    <div class="panel">
+        <h1 class="titulo">Simulador de Propagación</h1>
+        <p class="subtitulo">Autómata celular. Las celdas representan infección/vida activa.</p>
+
+        <div class="controles">
+            <button id="btn-pausa" class="btn-primary">Iniciar / Pausar</button>
+            <button id="btn-reiniciar" class="btn-outline">Reiniciar</button>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="tablero" width="800" height="500"></canvas>
+        </div>
+
+        <div class="dashboard">
+            <div class="stat-item">Día: <span id="lbl-dia">0</span></div>
+            <div class="stat-item" style="color: #0284c7;">Sanos: <span id="lbl-sanos">0</span></div>
+            <div class="stat-item" style="color: #ef4444;">Infectados: <span id="lbl-inf">0</span></div>
+            <div class="stat-item" style="color: #64748b;">Recuperados: <span id="lbl-rec">0</span></div>
+            <div class="stat-item" style="color: #9333ea;">Fallecidos: <span id="lbl-mue">0</span></div>
+        </div>
     </div>
     
     <script type="text/javascript" src="/eel.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>

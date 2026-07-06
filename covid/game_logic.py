@@ -12,11 +12,13 @@ class CovidSimulation:
         self.grid = [[1 if random.random() > 0.25 else 0 for _ in range(cols)] for _ in range(rows)]
         self.timers = [[0 for _ in range(cols)] for _ in range(rows)]
 
-        # 5 pacientes cero
-        for _ in range(5):
+       # 3 pacientes cero exactos
+        pacientes_cero = 0
+        while pacientes_cero < 3:
             rx, ry = random.randint(0, cols-1), random.randint(0, rows-1)
             if self.grid[ry][rx] == 1:
                 self.grid[ry][rx] = 2
+                pacientes_cero += 1
 
     def get_state(self):
         """Retorna el estado actual para enviarlo a JavaScript"""
@@ -50,10 +52,14 @@ class CovidSimulation:
                     for i in range(-1, 2):
                         for j in range(-1, 2):
                             if i == 0 and j == 0: continue
-                            col = (x + i + self.cols) % self.cols
-                            row = (y + j + self.rows) % self.rows
-                            if self.grid[row][col] == 2:
-                                infected_neighbors += 1
+                            
+                            col = x + i
+                            row = y + j
+                            
+                            # Verificamos que no se salga de los límites del canvas
+                            if 0 <= col < self.cols and 0 <= row < self.rows:
+                                if self.grid[row][col] == 2:
+                                    infected_neighbors += 1
                     
                     for _ in range(infected_neighbors):
                         if random.random() < self.infection_prob:
