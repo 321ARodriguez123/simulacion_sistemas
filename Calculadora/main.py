@@ -1,192 +1,145 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
+import eel
+import random
+import time
+import os
+import numpy as np
+from scipy.stats import norm, gamma, weibull_min, erlang
 
-# ==========================================
-# IMPORTAMOS NUESTROS PROPIOS ARCHIVOS
-# ==========================================
+# Importamos tu lógica de simulación
 import cuadrados_medios
 import productos_medios
 import multiplicador_contacto
 import otro
 import uni_var_media
-import graficos  # <-- NUEVO ARCHIVO IMPORTADO
 
-class AplicacionSimulacion:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Generador y Evaluador de Números Pseudoaleatorios")
-        self.root.geometry("1000x600")
+# Inicializamos la carpeta del frontend usando la ruta absoluta
+directorio_actual = os.path.dirname(os.path.abspath(__file__))
+ruta_web = os.path.join(directorio_actual, 'web')
+eel.init(ruta_web)
+
+@eel.expose
+def generar_simulacion(metodo, params):
+    filas = []
+    ri_list = []
+    
+    try:
+        rango = int(params.get('rango', 10))
         
-        self.entradas = {}
-        self.metodo_actual = tk.StringVar(value="Cuadrados Medios")
-        
-        # Guardará la lista de Ri generados en la iteración actual
-        self.ri_actual = [] # <-- NUEVA VARIABLE PARA LOS GRÁFICOS
-        
-        self.construir_interfaz()
-        self.actualizar_inputs()
-
-    def construir_interfaz(self):
-        # --- BARRA LATERAL ---
-        sidebar = tk.Frame(self.root, width=200, bg="#2c3e50", relief="sunken")
-        sidebar.pack(side="left", fill="y")
-        
-        tk.Label(sidebar, text="MÉTODOS", fg="white", bg="#2c3e50", font=("Arial", 12, "bold")).pack(pady=20)
-        
-        opciones = ["Cuadrados Medios", "Productos Medios", "Multiplicador Constante", "Congruencial Lineal"]
-        for op in opciones:
-            rb = tk.Radiobutton(
-                sidebar, text=op, variable=self.metodo_actual, value=op,
-                command=self.actualizar_inputs, bg="#2c3e50", fg="white", 
-                selectcolor="#34495e", activebackground="#2c3e50",
-                font=("Arial", 10), indicatoron=0, width=20, pady=10
-            )
-            rb.pack(pady=5, padx=10)
-
-        # --- ÁREA PRINCIPAL ---
-        area_principal = tk.Frame(self.root)
-        area_principal.pack(side="right", fill="both", expand=True)
-
-        self.frame_inputs = tk.Frame(area_principal, pady=15)
-        self.frame_inputs.pack(fill="x")
-        
-        # CONTENEDOR DE BOTONES (Modificado para alinear los dos botones)
-        frame_botones = tk.Frame(area_principal)
-        frame_botones.pack(pady=5)
-        
-        tk.Button(frame_botones, text="Generar y Evaluar", command=self.generar, bg="#27ae60", fg="white", font=("Arial", 11, "bold")).pack(side="left", padx=5)
-        
-        # NUEVO BOTÓN PARA LOS GRÁFICOS
-        tk.Button(frame_botones, text="Ver Gráficos 📊", command=self.mostrar_graficos, bg="#2980b9", fg="white", font=("Arial", 11, "bold")).pack(side="left", padx=5)
-
-        panel_dividido = tk.PanedWindow(area_principal, orient="horizontal")
-        panel_dividido.pack(fill="both", expand=True, padx=10, pady=10)
-
-        # Tabla
-        frame_tabla = tk.Frame(panel_dividido)
-        panel_dividido.add(frame_tabla, minsize=400)
-        scroll_y = ttk.Scrollbar(frame_tabla)
-        scroll_y.pack(side="right", fill="y")
-        self.tabla = ttk.Treeview(frame_tabla, show="headings", yscrollcommand=scroll_y.set)
-        scroll_y.config(command=self.tabla.yview)
-        self.tabla.pack(fill="both", expand=True)
-
-        # Panel Estadístico
-        frame_stats = tk.Frame(panel_dividido, bg="#ecf0f1", padx=10, pady=10)
-        panel_dividido.add(frame_stats, minsize=250)
-        tk.Label(frame_stats, text="Resultados Estadísticos", bg="#ecf0f1", font=("Arial", 11, "bold")).pack(anchor="w")
-        self.texto_stats = tk.Text(frame_stats, width=40, height=20, font=("Courier", 10), bg="#f9f9f9", state="disabled")
-        self.texto_stats.pack(fill="both", expand=True, pady=5)
-
-    def crear_input(self, texto_label, clave_diccionario):
-        frame = tk.Frame(self.frame_inputs)
-        frame.pack(side="top", fill="x", pady=2)
-        tk.Label(frame, text=texto_label, width=20, anchor="e").pack(side="left", padx=5)
-        entry = tk.Entry(frame)
-        entry.pack(side="left", fill="x", expand=True, padx=20)
-        self.entradas[clave_diccionario] = entry
-
-    def configurar_tabla(self, columnas):
-        self.tabla["columns"] = columnas
-        for col in columnas:
-            self.tabla.heading(col, text=col)
-            self.tabla.column(col, anchor="center", width=80)
-
-    def actualizar_inputs(self):
-        for widget in self.frame_inputs.winfo_children():
-            widget.destroy()
-        self.entradas.clear()
-        
-        for fila in self.tabla.get_children():
-            self.tabla.delete(fila)
-            
-        self.ri_actual = [] # Limpiar los datos acumulados al cambiar de método
-            
-        self.texto_stats.config(state="normal")
-        self.texto_stats.delete(1.0, tk.END)
-        self.texto_stats.insert(tk.END, "Esperando datos...")
-        self.texto_stats.config(state="disabled")
-
-        metodo = self.metodo_actual.get()
         if metodo == "Cuadrados Medios":
-            self.crear_input("Semilla (4 dígitos):", "semilla")
-            self.crear_input("Rango (Iteraciones):", "rango")
+            filas, ri_list = cuadrados_medios.generar(int(params['semilla']), rango)
         elif metodo == "Productos Medios":
-            self.crear_input("Semilla 1 (4 dígitos):", "semilla1")
-            self.crear_input("Semilla 2 (4 dígitos):", "semilla2")
-            self.crear_input("Rango (Iteraciones):", "rango")
+            filas, ri_list = productos_medios.generar(int(params['semilla1']), int(params['semilla2']), rango)
         elif metodo == "Multiplicador Constante":
-            self.crear_input("Constante (a):", "a")
-            self.crear_input("Semilla (4 dígitos):", "semilla")
-            self.crear_input("Rango (Iteraciones):", "rango")
+            filas, ri_list = multiplicador_contacto.generar(int(params['a']), int(params['semilla']), rango)
         elif metodo == "Congruencial Lineal":
-            self.crear_input("Constante (a):", "a")
-            self.crear_input("Constante (c):", "c")
-            self.crear_input("Módulo (m):", "m")
-            self.crear_input("Semilla:", "semilla")
-            self.crear_input("Rango (Iteraciones):", "rango")
+            filas, ri_list = otro.generar(int(params['a']), int(params['c']), int(params['semilla']), int(params['m']), rango)
 
-    def generar(self):
-        for fila in self.tabla.get_children():
-            self.tabla.delete(fila)
-
-        metodo = self.metodo_actual.get()
-        filas = []
-        ri_list = []
-        
-        try:
-            rango = int(self.entradas["rango"].get())
+        # Generamos los datos estructurados en lugar de texto
+        stats = None
+        if ri_list:
+            m_ok, m_calc, m_tol = uni_var_media.evaluar_media(ri_list)
+            v_ok, v_calc, v_esp = uni_var_media.evaluar_varianza(ri_list)
+            u_ok, p_val = uni_var_media.evaluar_uniformidad(ri_list)
             
-            if metodo == "Cuadrados Medios":
-                semilla = int(self.entradas["semilla"].get())
-                self.configurar_tabla(("Iter", "Semilla", "Cuadrado", "Centro", "Ri"))
-                filas, ri_list = cuadrados_medios.generar(semilla, rango)
+            # PYTHON HACE TODA LA LÓGICA Y FORMATEO
+            stats = {
+                "media": {
+                    "val": f"{m_calc:.4f}", 
+                    "tol": f"{m_tol:.4f}", 
+                    "texto": "✅ PASO" if m_ok else "❌ FALLO",
+                    "clase": "status-pass" if m_ok else "status-fail"
+                },
+                "varianza": {
+                    "val": f"{v_calc:.4f}", 
+                    "esp": f"{v_esp:.4f}", 
+                    "texto": "✅ PASÓ" if v_ok else "❌ FALLÓ",
+                    "clase": "status-pass" if v_ok else "status-fail"
+                },
+                "uniformidad": {
+                    "p": f"{p_val:.4f}", 
+                    "texto": "✅ PASÓ" if u_ok else "❌ FALLÓ",
+                    "clase": "status-pass" if u_ok else "status-fail"
+                }
+            }
+        
+        return {"status": "success", "filas": filas, "ri_list": ri_list, "stats": stats}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
-            elif metodo == "Productos Medios":
-                semilla1 = int(self.entradas["semilla1"].get())
-                semilla2 = int(self.entradas["semilla2"].get())
-                self.configurar_tabla(("Iter", "Semilla 1", "Semilla 2", "Producto", "Centro", "Ri"))
-                filas, ri_list = productos_medios.generar(semilla1, semilla2, rango)
+@eel.expose
+def procesar_graficos(ri_list, distribucion, params):
+    if not ri_list:
+        return {"status": "error", "message": "No hay datos para graficar."}
+        
+    try:
+        ri_arr = np.array(ri_list)
+        
+        # === TRANSFORMACIONES ESTADÍSTICAS ===
+        if distribucion == "Uniforme":
+            a = float(params.get('a', 0))
+            b = float(params.get('b', 1))
+            transformados = a + (b - a) * ri_arr
+            titulo = f"Uniforme (a={a}, b={b})"
+            
+        elif distribucion == "Exponencial":
+            lam = float(params.get('lambda', 1.0))
+            transformados = (-1 / lam) * np.log(1 - ri_arr + 1e-10)
+            titulo = f"Exponencial (λ={lam})"
+            
+        elif distribucion == "Normal":
+            mu = float(params.get('mu', 0))
+            sigma = float(params.get('sigma', 1))
+            transformados = norm.ppf(ri_arr, loc=mu, scale=sigma)
+            titulo = f"Normal (μ={mu}, σ={sigma})"
+            
+        elif distribucion == "Gamma":
+            alfa = float(params.get('alfa', 2.0))
+            beta = float(params.get('beta', 1.0))
+            # scipy usa 'a' para forma (alfa) y 'scale' para escala (beta)
+            transformados = gamma.ppf(ri_arr, a=alfa, scale=beta)
+            titulo = f"Gamma (α={alfa}, β={beta})"
+            
+        elif distribucion == "k-Erlang":
+            k = int(params.get('k', 2))
+            lam_erlang = float(params.get('lam_erlang', 1.0))
+            # Erlang es un caso especial de Gamma donde k es entero
+            transformados = erlang.ppf(ri_arr, a=k, scale=1/lam_erlang)
+            titulo = f"k-Erlang (k={k}, λ={lam_erlang})"
+            
+        elif distribucion == "Weibull":
+            k_w = float(params.get('k_w', 1.5)) # Forma
+            lam_w = float(params.get('lam_w', 1.0)) # Escala
+            transformados = weibull_min.ppf(ri_arr, c=k_w, scale=lam_w)
+            titulo = f"Weibull (k={k_w}, λ={lam_w})"
+            
+        else:
+            transformados = ri_arr
+            titulo = "Original U(0,1)"
 
-            elif metodo == "Multiplicador Constante":
-                a = int(self.entradas["a"].get())
-                semilla = int(self.entradas["semilla"].get())
-                self.configurar_tabla(("Iter", "Constante", "Semilla", "Resultado", "Centro", "Ri"))
-                filas, ri_list = multiplicador_contacto.generar(a, semilla, rango)
+        # Asegurarnos de limpiar valores inválidos por límites matemáticos (inf/nan)
+        transformados = np.nan_to_num(transformados, nan=0.0, posinf=0.0, neginf=0.0)
 
-            elif metodo == "Congruencial Lineal":
-                a = int(self.entradas["a"].get())
-                c = int(self.entradas["c"].get())
-                m = int(self.entradas["m"].get())
-                semilla = int(self.entradas["semilla"].get())
-                self.configurar_tabla(("Iter", "Semilla", "Resultado", "Ri"))
-                filas, ri_list = otro.generar(a, c, semilla, m, rango)
+        # === AGRUPACIÓN PARA HISTOGRAMA (Estilo Excel) ===
+        counts, bin_edges = np.histogram(transformados, bins='auto')
+        
+        # Formatear etiquetas de X como rangos matemáticos [min, max] idéntico a Excel
+        hist_labels = [f"[{bin_edges[i]:.2f}, {bin_edges[i+1]:.2f}]" for i in range(len(counts))]
+        hist_data = counts.tolist()
 
-            # Guardar en el estado de la clase para que el botón de gráficos tenga acceso
-            self.ri_actual = ri_list # <-- NUEVO
+        # Datos para Dispersión
+        scatter_data = [{"x": float(transformados[i]), "y": float(transformados[i+1])} for i in range(len(transformados)-1)] if len(transformados) > 1 else []
 
-            # Llenar la tabla
-            for fila in filas:
-                self.tabla.insert("", "end", values=fila)
-                
-            if ri_list:
-                reporte = uni_var_media.reporte_simulacion(ri_list)
-                self.texto_stats.config(state="normal")
-                self.texto_stats.delete(1.0, tk.END)
-                self.texto_stats.insert(tk.END, reporte)
-                self.texto_stats.config(state="disabled")
+        return {
+            "status": "success",
+            "titulo": titulo,
+            "hist_labels": hist_labels,
+            "hist_data": hist_data,
+            "scatter_data": scatter_data
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+    
 
-        except ValueError:
-            messagebox.showerror("Error", "Ingresa únicamente números enteros válidos.")
-        except Exception as e:
-            messagebox.showerror("Error", f"Ocurrió un error inesperado: {e}")
-
-    # NUEVO MÉTODO PARA MANEJAR EL EVENTO DEL BOTÓN
-    def mostrar_graficos(self):
-        """Invoca la ventana del archivo externo pasándole el entorno principal y los datos."""
-        graficos.abrir_ventana_graficos(self.root, self.ri_actual)
-
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = AplicacionSimulacion(root)
-    root.mainloop()
+if __name__ == '__main__':
+    # Lanzamos la aplicación Eel en una ventana de Chrome/Edge
+    eel.start('index.html', mode='edge', size=(1200, 800), position=(100, 50))

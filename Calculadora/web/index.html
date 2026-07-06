@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Números Pseudoaleatorios</title>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Simulador UI</h2>
+                <p>Generación Aleatoria</p>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Método de Generación</h3>
+                <div id="method-selectors" class="radio-group">
+                    <label class="radio-card"><input type="radio" name="metodo" value="Cuadrados Medios" checked> <span>Cuadrados Medios</span></label>
+                    <label class="radio-card"><input type="radio" name="metodo" value="Productos Medios"> <span>Productos Medios</span></label>
+                    <label class="radio-card"><input type="radio" name="metodo" value="Multiplicador Constante"> <span>Multiplicador Const.</span></label>
+                    <label class="radio-card"><input type="radio" name="metodo" value="Congruencial Lineal"> <span>Congruencial Lineal</span></label>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>Parámetros</h3>
+                <div id="dynamic-inputs" class="inputs-container">
+                    </div>
+            </div>
+            
+            <button id="btn-generar" class="btn-primary">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
+                Generar y Evaluar
+            </button>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <h1>Dashboard Estadístico</h1>
+            </header>
+
+            <div class="content-grid">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <h3>Datos Generados</h3>
+                    </div>
+                    <div class="table-container">
+                        <table id="results-table">
+                            <thead><tr id="table-head"></tr></thead>
+                            <tbody id="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card stats-card">
+                    <div class="card-header">
+                        <h3>Pruebas de Uniformidad y Varianza</h3>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div id="stats-empty" style="padding: 20px; color: var(--text-muted); text-align: center;">
+                            Esperando ejecución...
+                        </div>
+
+                        <div id="stats-content" style="display: none; flex-direction: column; gap: 12px;">
+                            
+                            <div class="stat-badge">
+                                <div class="stat-info">
+                                    <span class="stat-title">Media</span>
+                                    <span class="stat-value">
+                                        <span id="media-val">0.0000</span> 
+                                        <span style="font-size:0.8em; color:var(--text-muted);">(Tol: ±<span id="media-tol">0.0000</span>)</span>
+                                    </span>
+                                </div>
+                                <span id="media-status" class="status-indicator">...</span>
+                            </div>
+
+                            <div class="stat-badge">
+                                <div class="stat-info">
+                                    <span class="stat-title">Varianza</span>
+                                    <span class="stat-value">
+                                        <span id="var-val">0.0000</span> 
+                                        <span style="font-size:0.8em; color:var(--text-muted);">(Esp: <span id="var-esp">0.0000</span>)</span>
+                                    </span>
+                                </div>
+                                <span id="var-status" class="status-indicator">...</span>
+                            </div>
+
+                            <div class="stat-badge">
+                                <div class="stat-info">
+                                    <span class="stat-title">Uniformidad</span>
+                                    <span class="stat-value">p-valor: <span id="unif-val">0.0000</span></span>
+                                </div>
+                                <span id="unif-status" class="status-indicator">...</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card charts-full-card">
+                    <div class="card-header chart-header">
+                        <h3>Análisis Visual</h3>
+                        <div class="charts-controls">
+                            <select id="dist-select" class="modern-select">
+                                <option value="Uniforme">Uniforme</option>
+                                <option value="Exponencial">Exponencial</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Gamma">Gamma</option>
+                                <option value="k-Erlang">k-Erlang</option>
+                                <option value="Weibull">Weibull</option>
+                            </select>
+                            <div id="chart-inputs" class="chart-inputs-inline"></div>
+                            <button id="btn-graficar" class="btn-secondary">Graficar</button>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-canvas-container">
+                        <div id="histChart" class="chart-box"></div>
+                        <div id="scatterChart" class="chart-box"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
